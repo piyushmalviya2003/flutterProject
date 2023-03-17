@@ -1,0 +1,150 @@
+import 'package:flutter/material.dart';
+
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return MyAppState();
+  }
+}
+
+class MyAppState extends State<MyApp> {
+  var questionIndex = 0;
+
+  void answerQuestion() {
+    setState(() {
+      questionIndex = questionIndex + 1;
+    });
+
+    print(questionIndex);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var questions = [
+      {
+        'questiontext': ' What is the colour of sky ?',
+        'answers': ['Blue', 'Black', 'Red', 'white'],
+      },
+      {
+        'questiontext': 'What is the name of prime minister ?',
+        'answers': [
+          'shubhas thakrey',
+          'narendra modi',
+          'kamal nath',
+          'rahul gandhi'
+        ],
+      },
+      {
+        'questiontext': ' What is the name of your  training company ?',
+        'answers': ['infosys', 'Revedors', 'allmaa', 'techy'],
+      },
+    ];
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.purple,
+          title: Text('QUIZ'),
+        ),
+        body: Column(
+          children: [
+            Question(
+              questions[questionIndex]['questiontext'] as String,
+            ),
+            ...(questions[questionIndex]['answers'] as List<String>)
+                .map((answers) {
+              return Answers(answerQuestion, answers);
+            }).toList(),
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+class Answers extends StatelessWidget {
+  final VoidCallback selectHandler;
+  final String answerText;
+  Answers(this.selectHandler, this.answerText);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.all(10),
+      color: Colors.blue,
+      child: ElevatedButton(
+        child: Text(answerText),
+        onPressed: selectHandler,
+      ),
+    );
+  }
+}
+
+
+
+
+class Question extends StatelessWidget {
+  final String questionText;
+
+  Question(this.questionText);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.all(30),
+      child: Text(
+        questionText,
+        style: TextStyle(fontSize: 28, color: Colors.indigo),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+}
+
+
+
+// class Quiz extends StatelessWidget {
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return  Column(
+//       children: [
+//         Question(
+//           questions[questionIndex]['questiontext'] as String,
+//         ),
+//         ...(questions[questionIndex]['answers'] as List<String>)
+//             .map((answers) {
+//           return Answers(answerQuestion, answers);
+//         }).toList()
+//       ],
+//     )
+//
+//   }
+// }
+
+
+class Result extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        'Quiz is Over!',
+        style: TextStyle(
+          fontSize: 30,
+          color: Colors.amber,
+        ),
+      ),
+    );
+  }
+}
